@@ -38,7 +38,7 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
                 await _userManager.FindByNameAsync(loginModel.Name);
                 if (user != null)
                 {
-                    await _signInManager.SignOutAsync();
+                    await _signInManager.SignOutAsync(); 
                     if ((await _signInManager.PasswordSignInAsync(user,
                     loginModel.Password, false, false)).Succeeded)
                     {
