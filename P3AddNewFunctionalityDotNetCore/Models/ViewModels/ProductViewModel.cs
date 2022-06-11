@@ -16,13 +16,13 @@ namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
         public string Details { get; set; }
 
         [Required(ErrorMessage = "MissingQuantity")]
-        //[Range(0, double.MaxValue, ErrorMessage = "QuantityNotGreaterThanZero")]
-        [DataType("int", ErrorMessage = "QuantityNotAnInteger")]
+        [Range(int.MinValue, int.MaxValue, ErrorMessage = "QuantityNotAnInteger")]
+        [RequiredGreaterThanZero(ErrorMessage = "QuantityNotGreaterThanZero")]
         public string Stock { get; set; }
 
         [Required(ErrorMessage = "MissingPrice")]
-        //[Range(0, double.MaxValue, ErrorMessage = "PriceNotGreaterThanZero")]
-        [DataType("double", ErrorMessage = "PriceNotANumber")]
+        [Range(double.MinValue, double.MaxValue, ErrorMessage = "PriceNotANumber")]
+        [RequiredGreaterThanZero(ErrorMessage = "PriceNotGreaterThanZero")]
         public string Price { get; set; }
     }
 }
