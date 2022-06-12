@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -88,6 +89,19 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
             {
                 _productRepository.UpdateProductStocks(line.Product.Id, line.Quantity);
             }
+        }
+
+        //CHANGE
+        public List<string> ValidateProductViewModel(ProductViewModel product)
+        {
+            var result = new List<string>();
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(product, new ValidationContext(product), validationResults, true);
+
+            foreach (ValidationResult validationResult in validationResults)
+                result.Add(validationResult.ErrorMessage);
+
+            return result;
         }
 
         public void SaveProduct(ProductViewModel product)

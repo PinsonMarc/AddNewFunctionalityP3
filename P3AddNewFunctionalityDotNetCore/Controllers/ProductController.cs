@@ -40,7 +40,7 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
         [HttpPost]
         public IActionResult Create(ProductViewModel product)
         {
-            List<string> modelErrors = new List<string>();
+            List<string> modelErrors = new List<string>();//_productService.ValidateProductViewModel(product);
             // TODO validation controls
             // Implement a method inside the ProductService class that will return an error message for each
             // product property that is not conform to its business rules. The return type of the method 

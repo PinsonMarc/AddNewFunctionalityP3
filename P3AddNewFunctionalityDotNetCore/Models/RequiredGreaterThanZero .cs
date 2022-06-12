@@ -7,7 +7,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models
         public override bool IsValid(object value)
         {
             // return true if value is a non-null number > 0, otherwise return false
-            return value != null && int.TryParse(value.ToString(), out int i) && i > 0;
+            return value != null && double.TryParse(value.ToString(), out double i) && i > 0;
         }
     }
 }
