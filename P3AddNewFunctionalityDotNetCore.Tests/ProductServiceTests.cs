@@ -163,9 +163,18 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             // Assert
             Assert.Empty(_validationResults);
+
+            // Act
+            _product.Price = "4.99";
+            _product.Name = "ProductName";
+            _product.Stock = "1";
+            _product.Description = "Description";
+            _product.Details = "Details";
+            TryValidateTestProduct();
+
+            Assert.Empty(_validationResults);
         }
 
-        [Fact]
         public void Dispose()
         {
             _product = null;
