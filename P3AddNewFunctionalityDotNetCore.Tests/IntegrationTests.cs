@@ -78,7 +78,7 @@ namespace IntegrationTests
             _productService.SaveProduct(beforeCreation);
 
             IList<Product> productList = _productRepo.GetProduct().Result;
-            //First, make sure that product is correctly added
+            //Check creation success
             afterCreation = productList.Where(o => (o.Price.ToString() == beforeCreation.Price) && (o.Name == beforeCreation.Name) && (o.Quantity.ToString() == beforeCreation.Stock));
             Assert.Single(afterCreation);
 
@@ -91,39 +91,56 @@ namespace IntegrationTests
         [Fact]
         public void DeleteProduct()
         {
-            ProductViewModel addedProduct = new ProductViewModel
+            ProductViewModel beforeCreation = new ProductViewModel
             {
-                Price = "10",
-                Name = "ProductName",
-                Stock = "10"
+                Price = "2",
+                Name = "ProductName3",
+                Stock = "20"
             };
+            IEnumerable<Product> afterCreation;
+            int addedProductId;
 
-            _productService.SaveProduct(addedProduct);
-            //_productService.DeleteProduct()
-            //_productService.
+            _productService.SaveProduct(beforeCreation);
+            IList<Product> productList = _productRepo.GetProduct().Result;
 
-            //actual = productRepo;
-            //Assert.True(expected == actual);
+            afterCreation = productList.Where(o => (o.Price.ToString() == beforeCreation.Price) && (o.Name == beforeCreation.Name) && (o.Quantity.ToString() == beforeCreation.Stock));
+            //Check creation success
+            Assert.Single(afterCreation);
+
+            addedProductId = afterCreation.First().Id;
+
+            _productService.DeleteProduct(addedProductId);
+
+            //make sure product is not on client side anymore
+            Assert.Null(_productRepo.GetProduct(addedProductId).Result);
         }
 
         [Fact]
         public void DeleteProductWhichIsInCart()
         {
-            bool expected = true;
-            bool actual = true;
-
-            _productService.SaveProduct(new ProductViewModel
+            ProductViewModel beforeCreation = new ProductViewModel
             {
-                Price = "10",
-                Name = "ProductName",
-                Stock = "10"
-            });
+                Price = "2",
+                Name = "ProductName3",
+                Stock = "20"
+            };
+            IEnumerable<Product> afterCreation;
+            Product addedProduct;
 
-            //_productService.DeleteProduct()
-            //_productService.GetProduct
+            _productService.SaveProduct(beforeCreation);
+            IList<Product> productList = _productRepo.GetProduct().Result;
 
-            //actual = productRepo;
-            Assert.True(expected == actual);
+            afterCreation = productList.Where(o => (o.Price.ToString() == beforeCreation.Price) && (o.Name == beforeCreation.Name) && (o.Quantity.ToString() == beforeCreation.Stock));
+            //Check creation success
+            Assert.Single(afterCreation);
+
+            addedProduct = afterCreation.First();
+            _cart.AddItem(addedProduct, 10);
+
+            _productService.DeleteProduct(addedProduct.Id);
+
+            //Check that product is no more in the cart
+            Assert.DoesNotContain(_cart.Lines, line => (line.Product == addedProduct));
         }
 
         public void Dispose()
