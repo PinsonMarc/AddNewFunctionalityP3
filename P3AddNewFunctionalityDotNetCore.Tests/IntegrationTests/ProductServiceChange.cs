@@ -17,7 +17,7 @@ using P3AddNewFunctionalityDotNetCore.Models.Services;
 using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
 using Xunit;
 
-namespace IntegrationTests
+namespace P3AddNewFunctionalityDotNetCore.Tests
 {
     public class ProductServiceChange:IDisposable
     {
