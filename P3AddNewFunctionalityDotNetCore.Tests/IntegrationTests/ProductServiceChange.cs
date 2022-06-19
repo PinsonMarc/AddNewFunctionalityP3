@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Moq;
-using P3AddNewFunctionalityDotNetCore;
 using P3AddNewFunctionalityDotNetCore.Data;
 using P3AddNewFunctionalityDotNetCore.Models;
 using P3AddNewFunctionalityDotNetCore.Models.Entities;
 using P3AddNewFunctionalityDotNetCore.Models.Repositories;
 using P3AddNewFunctionalityDotNetCore.Models.Services;
 using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace P3AddNewFunctionalityDotNetCore.Tests
 {
-    public class ProductServiceChange:IDisposable
+    public class ProductServiceChange
     {
         private ProductService _productService;
         private ProductRepository _productRepo;
@@ -29,7 +24,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
         {
             //Set up Context using in memory Database
             DbContextOptions<P3Referential> options = new DbContextOptionsBuilder<P3Referential>()
-                .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
+                .UseInMemoryDatabase(databaseName: "InMemoryDbForTesting")
                 .Options;
             var p3Referential = new P3Referential(options);
             _productRepo = new ProductRepository(p3Referential);
@@ -37,8 +32,8 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             _productService = new ProductService(
                 _cart,
-                _productRepo, 
-                new OrderRepository(p3Referential), 
+                _productRepo,
+                new OrderRepository(p3Referential),
                 new Mock<IStringLocalizer<ProductService>>().Object);
         }
 
@@ -141,13 +136,6 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             //Check that product is no more in the cart
             Assert.DoesNotContain(_cart.Lines, line => (line.Product == addedProduct));
-        }
-
-        public void Dispose()
-        {
-            _productService = null;
-            _productRepo = null;
-            _cart = null;
         }
     }
 }

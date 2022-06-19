@@ -91,19 +91,6 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
             }
         }
 
-        //CHANGE
-        public List<string> ValidateProductViewModel(ProductViewModel product)
-        {
-            var result = new List<string>();
-            var validationResults = new List<ValidationResult>();
-            Validator.TryValidateObject(product, new ValidationContext(product), validationResults, true);
-
-            foreach (ValidationResult validationResult in validationResults)
-                result.Add(validationResult.ErrorMessage);
-
-            return result;
-        }
-
         public void SaveProduct(ProductViewModel product)
         {
             var productToAdd = MapToProductEntity(product);

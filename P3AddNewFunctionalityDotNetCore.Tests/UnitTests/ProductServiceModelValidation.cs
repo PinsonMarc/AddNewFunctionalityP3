@@ -7,7 +7,7 @@ using Xunit;
 
 namespace P3AddNewFunctionalityDotNetCore.Tests
 {
-    public class ProductServiceModelValidation : IDisposable
+    public class ProductServiceModelValidation
     {
         private ProductViewModel _product;
         private List<ValidationResult> _validationResults;
@@ -131,6 +131,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             Assert.Empty(_validationResults);
         }
+
         [Fact]
         public void ModelNoErrorAllInfo()
         {
@@ -143,12 +144,6 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             TryValidateTestProduct();
 
             Assert.Empty(_validationResults);
-        }
-
-        public void Dispose()
-        {
-            _product = null;
-            _validationResults = null;
         }
     }
 }
